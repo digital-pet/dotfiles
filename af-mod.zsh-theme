@@ -25,7 +25,7 @@ local reset_color=%f
 local new_error_symbol="$emoji[x]%{ %}"  # ZSH and emoji are Not!!! Friends!!! but I'm making them play
 local old_error_symbol=$'\xA5'' '
 
-local new_success_symbol=$emoji[check_mark_unqualified]
+local new_success_symbol=$emoji[green_circle]
 local old_success_symbol=$'\xA5'
 
 local caret1=$'\xC8' # MacRoman
@@ -83,10 +83,10 @@ ZSH_THEME_GIT_PROMPT_SHA_BEFORE="["
 ZSH_THEME_GIT_PROMPT_SHA_AFTER="]"
 
 function realstrlen {
-	local str=$1
+        local str=$1
     local zero='%([BSUbfksu]|([FK]|){*})'
-	local len=${#${(S%%)str//$~zero/}}
-	echo $len
+        local len=${#${(S%%)str//$~zero/}}
+        echo $len
 }
 
 #Sometimes grabs (fetch) and i'm not sure why, regex is hard y'all
@@ -101,39 +101,39 @@ function gitStatusF() {
 function afmagic_dashes {
 
     local leftlen=$(realstrlen $1)
-	local rightlen=$(realstrlen $2)
+        local rightlen=$(realstrlen $2)
 
     echo $(( $COLUMNS - $leftlen - $rightlen ))
 }
 
 function chpwd {
-	DIRLIST=1
+        DIRLIST=1
 }
 
 function precmd {
 
-	local left=$(gitStatusF)
+        local left=$(gitStatusF)
 
-	if [[ -z $left ]]
-	then
-		left="$dash_color----$prompt_color//"
-	fi
+        if [[ -z $left ]]
+        then
+                left="$dash_color----$prompt_color//"
+        fi
 
-	local right=$env_color\[$USER@$HOST\]%{$reset_color%}
+        local right=$env_color\[$USER@$HOST\]%{$reset_color%}
 
-	local dashcount=$(afmagic_dashes $left $right)
+        local dashcount=$(afmagic_dashes $left $right)
 
-	print -rPn $left
+        print -rPn $left
 
-	print -rPn '$dash_color${(l:$dashcount::-:)}'
+        print -rPn '$dash_color${(l:$dashcount::-:)}'
 
-	print -P $right
-	
-	if [[ -n $DIRLIST ]]
-	then
-		ll
-		unset DIRLIST
-	fi
+        print -P $right
+
+        if [[ -n $DIRLIST ]]
+        then
+                ll
+                unset DIRLIST
+        fi
 }
 
 setopt prompt_subst
